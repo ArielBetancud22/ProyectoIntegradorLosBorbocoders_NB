@@ -82,13 +82,16 @@ public class PersonService {
 
 
 
-        } else {
-
-            personToUpdate = listForUpdates.get(0);
+        } else if(listForUpdates.isEmpty()) {
+            System.out.println("there is no person with that id");
+            frontService.submenu();
 
         }
-
-        System.out.print("Enter the new name: ");
+        else{
+        
+            personToUpdate = listForUpdates.get(0);
+            
+                    System.out.print("Enter the new name: ");
         personToUpdate.setName(sc.nextLine());
 
         System.out.print("Enter the new lastname: ");
@@ -107,6 +110,7 @@ public class PersonService {
 
         if (option == 1)
             frontService.menu();
+        }
 
     }
     public  void deletePeople() {
