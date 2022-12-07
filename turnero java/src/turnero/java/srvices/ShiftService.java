@@ -127,7 +127,7 @@ public class ShiftService {
             else if (shiftList.size()-1 == i ){
 
                 System.out.println("the shift hasn't been founded!");
-
+                frontService.submenu();
             }
 
         }
