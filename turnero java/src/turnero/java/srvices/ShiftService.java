@@ -83,17 +83,17 @@ public class ShiftService {
 
             confirmShift(shift);
 
-
+            frontService.submenu();
         } else {
 
             personService.addPeople();
 
-            addShift();
+            //addShift();
 
         }
 
 
-        frontService.submenu();
+        //frontService.submenu();
     }
 
     public  void updateShift(){
