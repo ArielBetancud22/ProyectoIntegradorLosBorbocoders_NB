@@ -277,10 +277,10 @@ public class PersonService {
         peopleList.add(new Person("Jon", "Snow", 54213456, 12064563059L, "jonsnow@gmail.com"));
         peopleList.add(new Person("Catelyn", "Stark", 45645645, 12064512559L, "catelyn@gmail.com"));
         peopleList.add(new Person("Khal", "Drogo", 84651321, 12011111213L, "khal@gmail.com"));
-        peopleList.add(new Person("Robb", "Stark", 5789457, 12064234239L,"robb@gmail.com"));
-        peopleList.add(new Person("Eddard", "Stark", 89778989, 12064514569L, "eddard@gmail.com"));
-        peopleList.add(new Person("Sansa", "Stark", 68465456, 12027953883L, "sansa@gmail.com"));
-        peopleList.add(new Person("Aria", "Stark", 71235451, 14327953213L, "aria@gmail.com"));
+        peopleList.add(new Person("Robb", "Starka", 5789457, 12064234239L,"robb@gmail.com"));
+        peopleList.add(new Person("Eddard", "Starks", 89778989, 12064514569L, "eddard@gmail.com"));
+        peopleList.add(new Person("Sansa", "Starkd", 68465456, 12027953883L, "sansa@gmail.com"));
+        peopleList.add(new Person("Aria", "Starkf", 71235451, 14327953213L, "aria@gmail.com"));
         peopleList.add(new Person("Tyrion", "Lannister", 9, 19927953213L, "tyrion@gmail.com"));
         peopleList.add(new Person("Cersei", "Lannister", 8, 14327958888L, "cersei@gmail.com"));
     }
