@@ -5,9 +5,8 @@ import system.java.services.FrontService;
 public class App {
 
     public static void main(String[] args) {
-        // TODO code application logic here
         
-              dao.getData(); // Data load.
+        dao.getData(); // Data load.
 
         frontService.menu(); // Show menu.
 

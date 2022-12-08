@@ -12,16 +12,15 @@ import java.util.stream.Collectors;
 
 public class ShiftService {
 
-    public  void displayShifts() {
+    public void displayShifts() {
 
-        if ( shiftList.isEmpty() ) {
+        if (shiftList.isEmpty()) {
 
             System.out.println("The database is empty.");
 
             frontService.submenu();
 
-        }
-        else {
+        } else {
 
             sortShifts();
 
@@ -29,7 +28,7 @@ public class ShiftService {
             System.out.printf("%10s %25s %30s %25s", "ID", "NAME", "LASTNAME", "SHIFT");
             System.out.println();
             System.out.println("****************************************************************************************************");
-            for(Shift s: shiftList){
+            for (Shift s : shiftList) {
 
                 System.out.format("%10s %25s %30s %30s",
                         s.getPerson().getId(), s.getPerson().getName(), s.getPerson().getLastname(), s.getDate().format(formatter));
@@ -37,13 +36,12 @@ public class ShiftService {
                 System.out.println("****************************************************************************************************");
             }
 
-
             frontService.submenu();
         }
 
     }
 
-    public  void addShift() {
+    public void addShift() {
 
         System.out.println();
         System.out.println("Is the user actually registered ? y/n");
@@ -53,6 +51,8 @@ public class ShiftService {
 
             System.out.print("Please enter the id: ");
             int id = sc.nextInt();
+            
+            
             System.out.print("Please enter the year: ");
             int year = sc.nextInt();
             System.out.print("Please enter the Month: ");
@@ -63,38 +63,35 @@ public class ShiftService {
             int hour = sc.nextInt();
             System.out.print("Please enter the minutes: ");
             int minutes = sc.nextInt();
-            
+
             int i, index = 0;
-            
-            for(i = 0; i < personService.getPersons().size(); i++) {
-            	
-            	if (id == personService.getPersons().get(i).getId()) {
-            		
-            		index = i;
-            	}
+
+            for (i = 0; i < personService.getPersons().size(); i++) {
+
+                if (id == personService.getPersons().get(i).getId()) {
+
+                    index = i;
+                }
             }
-            
+
             dateTime = LocalDateTime.of(year, month, day, hour, minutes);
 
             Shift shift = new Shift(dateTime, personService.getPersons().get(index));
 
-            confirmShift(shift);
+            confirmShift(shift, dateTime);
 
             frontService.submenu();
         } else {
 
             personService.addPeople();
-          
 
             //addShift();
-
         }
-
 
         //frontService.submenu();
     }
 
-    public  void updateShift(){
+    public void updateShift() {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -117,12 +114,11 @@ public class ShiftService {
 
         for (int i = 0; i < shiftList.size(); i++) {
 
-            if( shiftList.get(i).getPerson().equals(personShift)) {
+            if (shiftList.get(i).getPerson().equals(personShift)) {
 
                 shiftFounded = shiftList.get(i);
                 break;
-            }
-            else if (shiftList.size()-1 == i ){
+            } else if (shiftList.size() - 1 == i) {
 
                 System.out.println("the shift hasn't been founded!");
                 frontService.submenu();
@@ -146,7 +142,7 @@ public class ShiftService {
             dateTime = LocalDateTime.of(year, month, day, hour, minutes);
             LocalDateTime dateTimePlus = dateTime.plusHours(5);
 
-            if(dateTime.getYear() >= dateTimePlus.getYear() && dateTime.getMonthValue() >= dateTimePlus.getMonthValue() && dateTime.getDayOfMonth() >= dateTimePlus.getDayOfMonth()) {
+            if (dateTime.getYear() >= dateTimePlus.getYear() && dateTime.getMonthValue() >= dateTimePlus.getMonthValue() && dateTime.getDayOfMonth() >= dateTimePlus.getDayOfMonth()) {
 // && dateTime.getHour() >= dateTimePlus.getHour() 
                 shiftFounded.setDate(dateTime);
                 System.out.println("The shift has been changed!");
@@ -154,10 +150,10 @@ public class ShiftService {
                 System.out.println("Press 2 to exit.");
                 option = scanner.nextInt();
 
-                if (option == 1)
+                if (option == 1) {
                     frontService.menu();
-            }
-            else {
+                }
+            } else {
                 System.out.println("Sorry, the shift is busy...");
                 System.out.println("Press 1 to return to the principal menu.");
                 System.out.println("Press 2 to try again.");
@@ -166,27 +162,24 @@ public class ShiftService {
 
                 switch (option) {
 
-                    case 1: frontService.menu();
+                    case 1:
+                        frontService.menu();
                         break;
 
-                    case 2: updateShift();
+                    case 2:
+                        updateShift();
                         break;
-
 
                     default:
                         break;
                 }
             }
 
-
-
-
         }
-
 
     }
 
-    public  void deleteShift(){
+    public void deleteShift() {
 
         System.out.print("Enter the identification number: ");
         int id = Integer.parseInt(sc.nextLine());
@@ -208,12 +201,11 @@ public class ShiftService {
 
         for (int i = 0; i < shiftList.size(); i++) {
 
-            if( shiftList.get(i).getPerson().equals(personShift)) {
+            if (shiftList.get(i).getPerson().equals(personShift)) {
 
                 shiftFounded = shiftList.get(i);
                 break;
-            }
-            else if (shiftList.size()-1 == i ){
+            } else if (shiftList.size() - 1 == i) {
 
                 System.out.println("the shift hasn't been founded!");
 
@@ -221,22 +213,22 @@ public class ShiftService {
 
         }
 
-        if(shiftFounded != null) {
+        if (shiftFounded != null) {
             System.out.println("The shift has been deleted!");
             shiftList.remove(shiftFounded);
         }
-
 
         System.out.println("Press 1 to return to the principal menu.");
         System.out.println("Press 2 to exit.");
         option = sc.nextInt();
         sc.nextLine();
 
-        if (option == 1)
+        if (option == 1) {
             frontService.menu();
+        }
     }
 
-    public  void searchShifts() {
+    public void searchShifts() {
 
         System.out.print("Enter the identification number: ");
         int id = sc.nextInt();
@@ -258,12 +250,11 @@ public class ShiftService {
 
         for (int i = 0; i < shiftList.size(); i++) {
 
-            if( shiftList.get(i).getPerson().equals(personShift)) {
+            if (shiftList.get(i).getPerson().equals(personShift)) {
 
                 shiftFounded = shiftList.get(i);
                 break;
-            }
-            else if (shiftList.size()-1 == i ){
+            } else if (shiftList.size() - 1 == i) {
 
                 System.out.println("the shift hasn't been founded!");
                 frontService.submenu();
@@ -288,37 +279,65 @@ public class ShiftService {
 
     }
 
-    private void confirmShift(Shift shift) {
+    private void confirmShift(Shift shift, LocalDateTime dateTime) {
 
-        LocalDateTime dateTimeNow = LocalDateTime.now();
-        LocalDateTime dayPlus = dateTimeNow.plusHours(5);
-
-
-        if(shiftList.stream().anyMatch(s -> s.getDate() == shift.getDate()) && shift.getDate().getHour() >= dayPlus.getHour()){
-
-            System.out.println("The shift already exists! \nTry again...");
-            addShift();
-
-            sortShifts();
-        }
-        else {
+        if (validateDate(dateTime, shiftList)) {
 
             shiftList.add(shift);
             System.out.println();
             System.out.println("The shift has been added successfully!");
             System.out.println();
+
+        } else {
+
+            System.out.println("The shift is not available.\nWould you like to try with another shift ? y/n ");
+            
+            String answer = sc.next();
+            
+            if(answer.equalsIgnoreCase("y")) {
+                
+                addShift();
+            }else {
+                
+                frontService.menu();
+            }
+            
+
+        }
+
+
+
+    }
+
+    private boolean validateDate(LocalDateTime dateTime, List<Shift> shifts) {
+
+        LocalDateTime datePlus = LocalDateTime.now().plusHours(5);
+        
+        
+        if ((shifts
+            .stream()
+            .anyMatch(s -> s.getDate()
+            .isEqual(dateTime))) 
+            || (dateTime.isBefore(datePlus)) ) {
+            
+            
+            return false;
+            
+        } else {
+
+            return true;
         }
 
     }
 
     public void loadList() {
 
-        shiftList.add(new Shift(LocalDateTime.of(2023, 10, 30, 10, 15) , personService.getPersons().get(1)));
-        shiftList.add(new Shift(LocalDateTime.of(2022, 11, 10, 10, 15) , personService.getPersons().get(2)));
+        shiftList.add(new Shift(LocalDateTime.of(2022, 12,10, 10, 00 ), personService.getPersons().get(1)));
+        shiftList.add(new Shift(LocalDateTime.of(2022, 11, 10, 10, 15), personService.getPersons().get(2)));
         shiftList.add(new Shift(LocalDateTime.of(2022, 10, 10, 10, 30), personService.getPersons().get(3)));
         shiftList.add(new Shift(LocalDateTime.of(2022, 11, 10, 11, 15), personService.getPersons().get(4)));
         shiftList.add(new Shift(LocalDateTime.of(2022, 12, 10, 10, 15), personService.getPersons().get(5)));
-        shiftList.add(new Shift(LocalDateTime.of(2022, 10, 10, 10, 10), personService.getPersons().get(6)));
+        shiftList.add(new Shift(LocalDateTime.of(2022, 10, 10, 10, 20), personService.getPersons().get(6)));
         shiftList.add(new Shift(LocalDateTime.of(2023, 1, 10, 10, 15), personService.getPersons().get(7)));
 
     }
@@ -336,4 +355,4 @@ public class ShiftService {
     private static final PersonService personService = new PersonService();
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy'.'MM'.'dd  HH:mm");
 
-    }
+}
