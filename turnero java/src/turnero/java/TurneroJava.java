@@ -1,14 +1,15 @@
 package turnero.java;
 
-import system.services.Dao;
-import system.services.FrontService;
+import turnero.java.services.Dao;
+import turnero.java.services.FrontService;
 public class TurneroJava {
 
     public static void main(String[] args) {
         // TODO code application logic here
-              dao.getData(); // Carga los datos.
+        
+              dao.getData(); // Data load.
 
-        frontService.menu(); // Muestra el menu.
+        frontService.menu(); // Show menu.
 
     }
         private static final FrontService frontService = new FrontService();
