@@ -1,8 +1,8 @@
-package turnero.java;
+package system.java;
 
-import turnero.java.services.Dao;
-import turnero.java.services.FrontService;
-public class TurneroJava {
+import system.java.services.Dao;
+import system.java.services.FrontService;
+public class App {
 
     public static void main(String[] args) {
         // TODO code application logic here

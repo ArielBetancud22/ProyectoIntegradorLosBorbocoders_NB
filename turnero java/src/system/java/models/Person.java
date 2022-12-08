@@ -1,4 +1,4 @@
-package system.models;
+package system.java.models;
 
 public class Person {
     private String name;

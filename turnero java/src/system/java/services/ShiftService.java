@@ -1,7 +1,7 @@
-package turnero.java.services;
+package system.java.services;
 
-import system.models.Person;
-import system.models.Shift;
+import system.java.models.Person;
+import system.java.models.Shift;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,11 +46,8 @@ public class ShiftService {
     public  void addShift() {
 
         System.out.println();
-        Scanner entrada = new Scanner (System.in);
         System.out.println("Is the user actually registered ? y/n");
-        String answer = entrada.next();
-        //System.out.println();
-        //String answer = sc.nextLine();
+        String answer = sc.next();
 
         if (answer.equalsIgnoreCase("y")) {
 
