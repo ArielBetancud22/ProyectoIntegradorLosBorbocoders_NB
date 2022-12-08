@@ -50,19 +50,8 @@ public class ShiftService {
         if (answer.equalsIgnoreCase("y")) {
 
             System.out.print("Please enter the id: ");
-            int id = sc.nextInt();
-            
-            
-            System.out.print("Please enter the year: ");
-            int year = sc.nextInt();
-            System.out.print("Please enter the Month: ");
-            int month = sc.nextInt();
-            System.out.print("Please enter the day: ");
-            int day = sc.nextInt();
-            System.out.print("Please enter the hour: ");
-            int hour = sc.nextInt();
-            System.out.print("Please enter the minutes: ");
-            int minutes = sc.nextInt();
+        int id = sc.nextInt();
+                  
 
             int i, index = 0;
 
@@ -74,7 +63,7 @@ public class ShiftService {
                 }
             }
 
-            dateTime = LocalDateTime.of(year, month, day, hour, minutes);
+            dateTime = inputDate();
 
             Shift shift = new Shift(dateTime, personService.getPersons().get(index));
 
@@ -83,12 +72,26 @@ public class ShiftService {
             frontService.submenu();
         } else {
 
-            personService.addPeople();
+            //personService.addPeople();
 
             //addShift();
         }
+        
+    }
+    
+    private LocalDateTime inputDate(){
+        System.out.print("Please enter the año: ");
+            int year = sc.nextInt();
+            System.out.print("Please enter the Month: ");
+            int month = sc.nextInt();
+            System.out.print("Please enter the day: ");
+            int day = sc.nextInt();
+            System.out.print("Please enter the hour: ");
+            int hour = sc.nextInt();
+            System.out.print("Please enter the minutes: ");
+            int minutes = sc.nextInt();
 
-        //frontService.submenu();
+        return LocalDateTime.of(year, month, day, hour, minutes);
     }
 
     public void updateShift() {
@@ -181,7 +184,7 @@ public class ShiftService {
 
     public void deleteShift() {
 
-        System.out.print("Enter the identification number: ");
+        System.out.print("INGRESE the identification number: ");
         int id = Integer.parseInt(sc.nextLine());
 
         Person personShift = new Person();
