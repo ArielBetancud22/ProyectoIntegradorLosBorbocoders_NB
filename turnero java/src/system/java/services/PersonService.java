@@ -86,7 +86,23 @@ public class PersonService {
 
         } else if(listForUpdates.isEmpty()) {
             System.out.println("there is no person with that id");
-            frontService.submenu();
+            frontService.submenu2();
+            
+            int option = Integer.parseInt(sc.nextLine());
+
+                switch (option) {
+
+                case 1:
+                    updatePeople();
+                    break;
+
+                case 2:
+                    frontService.menu();
+                    break;
+
+                default:
+                    break;
+            }
 
         }
         else{

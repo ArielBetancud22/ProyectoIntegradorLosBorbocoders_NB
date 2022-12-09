@@ -135,25 +135,42 @@ public class ShiftService {
             } else if (shiftList.size() - 1 == i) {
 
                 System.out.println("the shift hasn't been founded!");
-                frontService.submenu();
+                frontService.submenu2();
+                int option = Integer.parseInt(sc.nextLine());
+
+                switch (option) {
+
+                case 1:
+                    updateShift();
+                    break;
+
+                case 2:
+                    frontService.menu();
+                    break;
+
+                default:
+                    break;
+            }
             }
 
         }
 
         if (shiftFounded != null) {
 
-            System.out.print("Please enter the year: ");
-            int year = sc.nextInt();
-            System.out.print("Please enter the Month: ");
-            int month = sc.nextInt();
-            System.out.print("Please enter the day: ");
-            int day = sc.nextInt();
-            System.out.print("Please enter the hour: ");
-            int hour = sc.nextInt();
-            System.out.print("Please enter the minutes: ");
-            int minutes = sc.nextInt();
+//            System.out.print("Please enter the year: ");
+//            int year = sc.nextInt();
+//            System.out.print("Please enter the Month: ");
+//            int month = sc.nextInt();
+//            System.out.print("Please enter the day: ");
+//            int day = sc.nextInt();
+//            System.out.print("Please enter the hour: ");
+//            int hour = sc.nextInt();
+//            System.out.print("Please enter the minutes: ");
+//            int minutes = sc.nextInt();
+//            
+            LocalDateTime dateTime = inputDate();
 
-            dateTime = LocalDateTime.of(year, month, day, hour, minutes);
+            //dateTime = LocalDateTime.of(year, month, day, hour, minutes);
             LocalDateTime dateTimePlus = dateTime.plusHours(5);
 
             if (dateTime.getYear() >= dateTimePlus.getYear() && dateTime.getMonthValue() >= dateTimePlus.getMonthValue() && dateTime.getDayOfMonth() >= dateTimePlus.getDayOfMonth()) {
