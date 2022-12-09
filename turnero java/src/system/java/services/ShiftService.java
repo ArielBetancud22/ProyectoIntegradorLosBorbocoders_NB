@@ -11,6 +11,11 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class ShiftService {
+    
+    public List<Shift> getShifts() {
+        
+        return shiftList;
+    }
 
     public void displayShifts() {
 
@@ -43,44 +48,51 @@ public class ShiftService {
 
     public void addShift() {
 
-        System.out.println();
-        System.out.println("Is the user actually registered ? y/n");
-        String answer = sc.next();
-
-        if (answer.equalsIgnoreCase("y")) {
+       
 
             System.out.print("Please enter the id: ");
-        int id = sc.nextInt();
-                  
+            int id = sc.nextInt();
+            
+            
+            if((personService
+                .getPersons()
+                .stream()
+                .anyMatch(p -> p.getId() == id))) {
+                
+                    int i, index = 0;
 
-            int i, index = 0;
+                    for (i = 0; i < personService.getPersons().size(); i++) {
 
-            for (i = 0; i < personService.getPersons().size(); i++) {
+                        if (id == personService.getPersons().get(i).getId()) {
 
-                if (id == personService.getPersons().get(i).getId()) {
+                            index = i;
+                        }
+                    }
 
-                    index = i;
-                }
+
+                    LocalDateTime dateTime = inputDate();
+                    
+                    Shift shift = new Shift(dateTime,personService.getPersons().get(index));
+
+                    confirmShift(shift, dateTime);
+
+                    frontService.submenu();
+                           
+                
+            } else {
+                
+                System.out.println("The identification number hasn't been founded!");
+                personService.addPeople(false);
+                
             }
-
-            dateTime = inputDate();
-
-            Shift shift = new Shift(dateTime, personService.getPersons().get(index));
-
-            confirmShift(shift, dateTime);
-
-            frontService.submenu();
-        } else {
-
-            //personService.addPeople();
-
-            //addShift();
-        }
+                  
+            
         
     }
     
     private LocalDateTime inputDate(){
-        System.out.print("Please enter the año: ");
+        
+            System.out.print("Please enter the year: ");
             int year = sc.nextInt();
             System.out.print("Please enter the Month: ");
             int month = sc.nextInt();
@@ -96,10 +108,9 @@ public class ShiftService {
 
     public void updateShift() {
 
-        Scanner scanner = new Scanner(System.in);
-
+        
         System.out.print("Enter the identification number: ");
-        int id = Integer.parseInt(scanner.nextLine());
+        int id = Integer.parseInt(sc.nextLine());
 
         Person personShift = new Person();
 
@@ -132,15 +143,15 @@ public class ShiftService {
         if (shiftFounded != null) {
 
             System.out.print("Please enter the year: ");
-            int year = scanner.nextInt();
+            int year = sc.nextInt();
             System.out.print("Please enter the Month: ");
-            int month = scanner.nextInt();
+            int month = sc.nextInt();
             System.out.print("Please enter the day: ");
-            int day = scanner.nextInt();
+            int day = sc.nextInt();
             System.out.print("Please enter the hour: ");
-            int hour = scanner.nextInt();
+            int hour = sc.nextInt();
             System.out.print("Please enter the minutes: ");
-            int minutes = scanner.nextInt();
+            int minutes = sc.nextInt();
 
             dateTime = LocalDateTime.of(year, month, day, hour, minutes);
             LocalDateTime dateTimePlus = dateTime.plusHours(5);
@@ -151,17 +162,15 @@ public class ShiftService {
                 System.out.println("The shift has been changed!");
                 System.out.println("Press 1 to return to the principal menu.");
                 System.out.println("Press 2 to exit.");
-                option = scanner.nextInt();
+                option = sc.nextInt();
 
                 if (option == 1) {
                     frontService.menu();
                 }
             } else {
                 System.out.println("Sorry, the shift is busy...");
-                System.out.println("Press 1 to return to the principal menu.");
-                System.out.println("Press 2 to try again.");
-                System.out.println("Press 3 to exit.");
-                option = scanner.nextInt();
+                frontService.submenu2();
+                option = sc.nextInt();
 
                 switch (option) {
 
@@ -184,7 +193,7 @@ public class ShiftService {
 
     public void deleteShift() {
 
-        System.out.print("INGRESE the identification number: ");
+        System.out.print("Enter the identification number: ");
         int id = Integer.parseInt(sc.nextLine());
 
         Person personShift = new Person();
@@ -213,22 +222,38 @@ public class ShiftService {
                 System.out.println("the shift hasn't been founded!");
 
             }
-
+            
         }
+        
+       
 
         if (shiftFounded != null) {
             System.out.println("The shift has been deleted!");
             shiftList.remove(shiftFounded);
+            frontService.submenu();
+        } else {
+            frontService.submenu2();
+            
+            option = sc.nextInt();
+            sc.nextLine();
+
+            switch (option) {
+
+                case 1:
+                    deleteShift();
+                    break;
+
+                case 2:
+                    frontService.menu();
+                    break;
+
+                default:
+                    break;
+            }
         }
 
-        System.out.println("Press 1 to return to the principal menu.");
-        System.out.println("Press 2 to exit.");
-        option = sc.nextInt();
-        sc.nextLine();
-
-        if (option == 1) {
-            frontService.menu();
-        }
+        
+       
     }
 
     public void searchShifts() {
@@ -260,7 +285,25 @@ public class ShiftService {
             } else if (shiftList.size() - 1 == i) {
 
                 System.out.println("the shift hasn't been founded!");
-                frontService.submenu();
+                
+                frontService.submenu2();
+                
+                option = sc.nextInt();
+                sc.nextLine();
+
+                switch (option) {
+
+                    case 1:
+                        searchShifts();
+                        break;
+
+                    case 2:
+                        frontService.menu();
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
         }

@@ -13,11 +13,9 @@ public class PersonService {
 
         return peopleList;
     }
-    public  void addPeople() {
-
+    public  void addPeople(boolean flag) {
 
         Person person = new Person();
-
 
         System.out.print("Enter the name: ");
         person.setName(sc.nextLine());
@@ -36,13 +34,17 @@ public class PersonService {
         System.out.print("Enter the email: ");
         person.setEmail(sc.nextLine());
 
-
-
         // Llamado a la funcion para confirmar a la persona.
         confirmPeople(person);
+        
+        if(flag) {
+            
+            frontService.submenu();
 
-        frontService.submenu();
-
+        } else {
+            
+            shiftService.addShift();
+        }
     }
     public  void updatePeople(){
 
@@ -128,8 +130,20 @@ public class PersonService {
 
         for (int i = 0; i < peopleList.size(); i++) {
 
-            if (personToRemove.getName().equals(peopleList.get(i).getName()) && personToRemove.getLastname().equals(peopleList.get(i).getLastname()) && personToRemove.getId() == (peopleList.get(i).getId())) {
-
+            if (personToRemove.getName().equalsIgnoreCase(peopleList.get(i).getName()) && personToRemove.getLastname().equalsIgnoreCase(peopleList.get(i).getLastname()) && personToRemove.getId() == (peopleList.get(i).getId())) {
+                
+                int index = 1;
+                
+                for(int j=0; j< shiftService.getShifts().size();j++){
+                    
+                   if( personToRemove.getId() == shiftService.getShifts().get(j).getPerson().getId() ) {
+                       
+                       index = j;
+                   }
+                }
+                
+                shiftService.shiftList.remove(index);
+                
                 peopleList.remove(i);
                 System.out.println();
                 System.out.println("The person has been deleted!");
@@ -139,19 +153,22 @@ public class PersonService {
             } else if (i == peopleList.size()-1) {
 
                 System.out.println("The person couldn't be found.");
-                System.out.println("Press 1 to try again.");
-                System.out.println("Press 2 to go to the principal menu.");
-                System.out.println("Press 3 to exit.");
+                frontService.submenu2();
                 int option = Integer.parseInt(sc.nextLine());
 
-                if (option == 1) {
+                switch (option) {
+
+                case 1:
                     deletePeople();
-                } else if (option == 2) {
-                    frontService.menu();
-                }
-                else {
                     break;
-                }
+
+                case 2:
+                    frontService.menu();
+                    break;
+
+                default:
+                    break;
+            }
 
             }
         }
@@ -171,7 +188,7 @@ public class PersonService {
                                 p.getPhone() == person.getPhone())){
 
             System.out.println("The user already exists! \nTry again...");
-            addPeople();
+            addPeople(false);
         }
         else {
 
@@ -266,6 +283,28 @@ public class PersonService {
                     System.out.println("****************************************************************************************************");
 
             }
+        } else {
+            
+            System.out.println("The person hasn't been founded!");
+            
+            frontService.submenu2();
+                
+                int option = sc.nextInt();
+                sc.nextLine();
+
+                switch (option) {
+
+                    case 1:
+                        searchPeople();
+                        break;
+
+                    case 2:
+                        frontService.menu();
+                        break;
+
+                    default:
+                        break;
+                }
         }
 
         frontService.submenu();
@@ -291,6 +330,7 @@ public class PersonService {
     }
     private static final Scanner sc = new Scanner(System.in);
     private static final FrontService frontService = new FrontService();
+    private static final ShiftService shiftService = new ShiftService();
 
 
 }

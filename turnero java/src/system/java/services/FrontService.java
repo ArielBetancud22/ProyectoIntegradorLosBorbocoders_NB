@@ -72,7 +72,7 @@ public class FrontService {
             case 3: shiftService.addShift();
                 break;
 
-            case 4: personService.addPeople();
+            case 4: personService.addPeople(true);
                 break;
             case 5: shiftService.updateShift();
                 break;
@@ -117,6 +117,15 @@ public class FrontService {
             case 2: break;
 
         }
+    }
+    
+    public void submenu2() {
+        
+        System.out.println("Press 1 to try again.");
+        System.out.println("Press 2 to return to the principal menu.");
+        System.out.println("Press 3 to exit.");
+        
+        
     }
 
     public  void clear() {
