@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="turnero java/src"/>
+	<classpathentry kind="lib" path="turnero java/dist/shiftSystem.jar"/>
+	<classpathentry kind="output" path="turnero java/build/classes"/>
+</classpath>

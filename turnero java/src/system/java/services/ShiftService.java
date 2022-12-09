@@ -70,11 +70,11 @@ public class ShiftService {
                     }
 
 
-                    LocalDateTime dateTime = inputDate();
+                    LocalDateTime dateTime = inputDate(); // En esta línea se solicita la fecha y hora.
                     
                     Shift shift = new Shift(dateTime,personService.getPersons().get(index));
 
-                    confirmShift(shift, dateTime);
+                    confirmShift(shift, dateTime); // Aqui se envia un turno y una fecha para validar la disponibilidad.
 
                     frontService.submenu();
                            
@@ -82,7 +82,7 @@ public class ShiftService {
             } else {
                 
                 System.out.println("The identification number hasn't been founded!");
-                personService.addPeople(false);
+                personService.addPeople(false); // Si el ID no existe se solicita los datos del usuario y luego la carga del turno.
                 
             }
                   
@@ -90,7 +90,7 @@ public class ShiftService {
         
     }
     
-    private LocalDateTime inputDate(){
+    private LocalDateTime inputDate(){ // Esta función se encarga de solicitar la fecha y hora del turno.
         
             System.out.print("Please enter the year: ");
             int year = sc.nextInt();
@@ -106,66 +106,21 @@ public class ShiftService {
         return LocalDateTime.of(year, month, day, hour, minutes);
     }
 
-    public void updateShift() {
+    public void updateShift() { // Esta función se encarga de reprogramar un turno.
 
-        
         System.out.print("Enter the identification number: ");
         int id = Integer.parseInt(sc.nextLine());
 
-        Person personShift = new Person();
-
-        Shift shiftFounded = null;
-
-        for (int i = 0; i < personService.getPersons().size(); i++) {
-
-            if (id == (personService.getPersons().get(i).getId())) {
-
-                personShift = personService.getPersons().get(i);
-
-            }
-
-        }
-
-        for (int i = 0; i < shiftList.size(); i++) {
-
-            if (shiftList.get(i).getPerson().equals(personShift)) {
-
-                shiftFounded = shiftList.get(i);
-                break;
-            } else if (shiftList.size() - 1 == i) {
-
-                System.out.println("the shift hasn't been founded!");
-                
-                frontService.submenu2();
-                
-                int option = Integer.parseInt(sc.nextLine());
-
-                switch (option) {
-
-                case 1:
-                    updateShift();
-                    break;
-
-                case 2:
-                    frontService.menu();
-                    break;
-
-                default:
-                    break;
-            }
-            }
-
-        }
-
-        if (shiftFounded != null) {
+        // Aca comprobamos que el turno exista en la base de datos.
+        if (getShift(id) != null) {
             
+            Shift shiftFounded = getShift(id); // Aquí asignamos el objeto Shift obtenido.
+            
+            // Solicitud de fecha, hora y minuto del turno.
             LocalDateTime dateTime = inputDate();
-
-            LocalDateTime dateTimePlus = dateTime.plusHours(5);
             
-            
-
-            if (dateTime.getYear() >= dateTimePlus.getYear() && dateTime.getMonthValue() >= dateTimePlus.getMonthValue() && dateTime.getDayOfMonth() >= dateTimePlus.getDayOfMonth()) {
+            //Validación de disponibilidad.
+            if (validateDate(dateTime, shiftList)) { 
                 shiftFounded.setDate(dateTime);
                 System.out.println("The shift has been changed!");
                 System.out.println("Press 1 to return to the principal menu.");
@@ -176,25 +131,23 @@ public class ShiftService {
                     frontService.menu();
                 }
             } else {
-                System.out.println("Sorry, the shift is busy...");
-                frontService.submenu2();
-                option = sc.nextInt();
 
-                switch (option) {
+                System.out.println("Sorry, the shift can't be assigned.");
+                System.out.print("Would you like to try with another date? y/n");
 
-                    case 1:
-                        frontService.menu();
-                        break;
+                String answer = sc.nextLine();
 
-                    case 2:
-                        updateShift();
-                        break;
+                if (answer.equalsIgnoreCase("y")) {
 
-                    default:
-                        break;
+                    updateShift();
                 }
+
             }
 
+        } else {
+
+            System.out.println("Shift doesn't exist!");
+            frontService.submenu2(4);
         }
 
     }
@@ -202,65 +155,19 @@ public class ShiftService {
     public void deleteShift() {
 
         System.out.print("Enter the identification number: ");
-        int id = Integer.parseInt(sc.nextLine());
-
-        Person personShift = new Person();
-
-        Shift shiftFounded = null;
-
-        for (int i = 0; i < personService.getPersons().size(); i++) {
-
-            if (id == (personService.getPersons().get(i).getId())) {
-
-                personShift = personService.getPersons().get(i);
-                break;
-
-            }
-
-        }
-
-        for (int i = 0; i < shiftList.size(); i++) {
-
-            if (shiftList.get(i).getPerson().equals(personShift)) {
-
-                shiftFounded = shiftList.get(i);
-                break;
-            } else if (shiftList.size() - 1 == i) {
-
-                System.out.println("the shift hasn't been founded!");
-
-            }
-            
-        }
-        
+        int id = Integer.parseInt(sc.nextLine());     
        
-
-        if (shiftFounded != null) {
+        
+        if (getShift(id) != null) {
+            
+            Shift shiftFounded = getShift(id);
             System.out.println("The shift has been deleted!");
             shiftList.remove(shiftFounded);
             frontService.submenu();
         } else {
-            frontService.submenu2();
             
-            option = sc.nextInt();
-            sc.nextLine();
-
-            switch (option) {
-
-                case 1:
-                    deleteShift();
-                    break;
-
-                case 2:
-                    frontService.menu();
-                    break;
-
-                default:
-                    break;
-            }
+            frontService.submenu2(5);
         }
-
-        
        
     }
 
@@ -270,54 +177,11 @@ public class ShiftService {
         int id = sc.nextInt();
         //sc.nextLine();
 
-        Person personShift = new Person();
+        
+        if (getShift(id) != null) {
 
-        Shift shiftFounded = null;
-
-        for (int i = 0; i < personService.getPersons().size(); i++) {
-
-            if (id == (personService.getPersons().get(i).getId())) {
-
-                personShift = personService.getPersons().get(i);
-
-            }
-
-        }
-
-        for (int i = 0; i < shiftList.size(); i++) {
-
-            if (shiftList.get(i).getPerson().equals(personShift)) {
-
-                shiftFounded = shiftList.get(i);
-                break;
-            } else if (shiftList.size() - 1 == i) {
-
-                System.out.println("the shift hasn't been founded!");
-                
-                frontService.submenu2();
-                
-                option = sc.nextInt();
-                sc.nextLine();
-
-                switch (option) {
-
-                    case 1:
-                        searchShifts();
-                        break;
-
-                    case 2:
-                        frontService.menu();
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-        }
-
-        if (shiftFounded != null) {
-
+            Shift shiftFounded = getShift(id);
+            
             System.out.println("****************************************************************************************************");
             System.out.printf("%10s %25s %30s %25s", "ID", "NAME", "LASTNAME", "SHIFT");
             System.out.println();
@@ -329,6 +193,9 @@ public class ShiftService {
 
             frontService.submenu();
 
+        } else {
+            
+            frontService.submenu2(6);
         }
 
     }
@@ -382,6 +249,42 @@ public class ShiftService {
             return true;
         }
 
+    }
+        
+    private Shift getShift(int id) {
+
+        Person personShift = new Person();
+
+        Shift shiftFounded = null;
+
+        // En este ciclo obtenemos el objeto persona a modificar comparando los ID.
+        for (int i = 0; i < personService.getPersons().size(); i++) {
+
+            if (id == (personService.getPersons().get(i).getId())) {
+
+                personShift = personService.getPersons().get(i);
+
+            }
+
+        }
+
+        // En  ciclo comparamos nuestro objeto persona con el objeto turno y su atributo persona para hallar el turno a modificar.
+        for (int i = 0; i < shiftList.size(); i++) {
+
+            if (shiftList.get(i).getPerson().equals(personShift)) {
+
+                shiftFounded = shiftList.get(i);
+                break;
+                
+            } else if (shiftList.size() - 1 == i) { // Aqui nos aseguramos de recorrer toda la base de datos hasta que el indice sea igual a su tamaño.
+
+                System.out.println("the shift hasn't been founded!");
+
+            }
+            
+
+        }
+        return shiftFounded;
     }
 
     public void loadList() {

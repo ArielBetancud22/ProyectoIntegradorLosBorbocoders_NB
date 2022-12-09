@@ -6,13 +6,13 @@ public class App {
 
     public static void main(String[] args) {
         
-        dao.getData(); // Data load.
+        dao.getData(); // Este objeto se encarga de cargar los arrays en la base de datos.
 
-        frontService.menu(); // Show menu.
+        frontService.menu(); // Despliegue del menu.
 
     }
-        private static final FrontService frontService = new FrontService();
+    
+    private static final FrontService frontService = new FrontService(); 
     private static final Dao dao = new Dao();
 
-    
 }

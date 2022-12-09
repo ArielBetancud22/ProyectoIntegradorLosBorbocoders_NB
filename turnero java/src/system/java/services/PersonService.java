@@ -85,46 +85,31 @@ public class PersonService {
 
 
         } else if(listForUpdates.isEmpty()) {
-            System.out.println("there is no person with that id");
-            frontService.submenu2();
             
-            int option = Integer.parseInt(sc.nextLine());
-
-                switch (option) {
-
-                case 1:
-                    updatePeople();
-                    break;
-
-                case 2:
-                    frontService.menu();
-                    break;
-
-                default:
-                    break;
-            }
+            System.out.println("there is no person with that id");
+            frontService.submenu2(1);
 
         }
         else{
         
             personToUpdate = listForUpdates.get(0);
             
-                    System.out.print("Enter the new name: ");
-        personToUpdate.setName(sc.nextLine());
+            System.out.print("Enter the new name: ");
+            personToUpdate.setName(sc.nextLine());
 
-        System.out.print("Enter the new lastname: ");
-        personToUpdate.setLastname(sc.nextLine());
+            System.out.print("Enter the new lastname: ");
+            personToUpdate.setLastname(sc.nextLine());
 
-        System.out.print("Enter the new phone: ");
-        personToUpdate.setPhone(Long.parseLong(sc.nextLine()));
+            System.out.print("Enter the new phone: ");
+            personToUpdate.setPhone(sc.nextLong());
 
-        System.out.print("Enter the new email: ");
-        personToUpdate.setEmail(sc.nextLine().toLowerCase());
+            System.out.print("Enter the new email: ");
+            personToUpdate.setEmail(sc.nextLine().toLowerCase());
 
-        System.out.println("The person has been updated!");
-        System.out.println("Press 1 to return to the principal menu.");
-        System.out.println("Press 2 to exit.");
-        int option = Integer.parseInt(sc.nextLine());
+            System.out.println("The person has been updated!");
+            System.out.println("Press 1 to return to the principal menu.");
+            System.out.println("Press 2 to exit.");
+            int option = Integer.parseInt(sc.nextLine());
 
         if (option == 1)
             frontService.menu();
@@ -167,24 +152,10 @@ public class PersonService {
 
 
             } else if (i == peopleList.size()-1) {
-
-                System.out.println("The person couldn't be found.");
-                frontService.submenu2();
-                int option = Integer.parseInt(sc.nextLine());
-
-                switch (option) {
-
-                case 1:
-                    deletePeople();
-                    break;
-
-                case 2:
-                    frontService.menu();
-                    break;
-
-                default:
-                    break;
-            }
+                frontService.clear();
+                System.out.println("The person couldn't be found.\n");
+                frontService.submenu2(2);
+                
 
             }
         }
@@ -243,45 +214,11 @@ public class PersonService {
 
         System.out.print("Enter the identification number: ");
         int id = Integer.parseInt(sc.nextLine());
-        //sc.nextLine();
-        Person foundedPerson;
 
-        /*
-        for (int i = 0; i < peopleList.size(); i++) {
-
-            if (id == (peopleList.get(i).getId())) {
-
-                foundedPerson = peopleList.get(i);
-
-                System.out.println("************************************************************");
-                System.out.println("Id: " + id);
-                System.out.println("Name: " + foundedPerson.getName());
-                System.out.println("Lastname: " + foundedPerson.getLastname());
-                System.out.println("************************************************************");
-                frontService.menu();
-                break;
-
-            }
-            else if (i == peopleList.size()-1) {
-
-                System.out.println("The person doesn't exist!.");
-                System.out.println("Press 1 to try again.");
-                System.out.println("Press 2 to return to the principal menu.");
-                System.out.println("Press 3 to exit.");
-                int option = Integer.parseInt(sc.nextLine());
-
-                if (option == 1) {
-                    searchPeople();
-                } else if (option == 2) {
-                    frontService.menu();
-                }
-                else {
-                    break;
-                }
-            }
-        }*/
-
-        List<Person> foundedPeople = peopleList.stream().filter(p -> p.getId() == id).collect(Collectors.toList());
+        List<Person> foundedPeople = peopleList
+                                    .stream()
+                                    .filter(p -> p.getId() == id)
+                                    .collect(Collectors.toList());
 
         if (!foundedPeople.isEmpty()) {
 
@@ -301,31 +238,15 @@ public class PersonService {
             }
         } else {
             
-            System.out.println("The person hasn't been founded!");
+            frontService.clear();
             
-            frontService.submenu2();
-                
-                int option = sc.nextInt();
-                sc.nextLine();
-
-                switch (option) {
-
-                    case 1:
-                        searchPeople();
-                        break;
-
-                    case 2:
-                        frontService.menu();
-                        break;
-
-                    default:
-                        break;
-                }
+            System.out.println("The person hasn't been founded!\n");
+            
+            frontService.submenu2(3);
+              
         }
 
         frontService.submenu();
-
-
 
     }
 

@@ -119,13 +119,47 @@ public class FrontService {
         }
     }
     
-    public void submenu2() {
+    public void submenu2(int option) {
         
         System.out.println("Press 1 to try again.");
         System.out.println("Press 2 to return to the principal menu.");
         System.out.println("Press 3 to exit.");
+        int opt = sc.nextInt();
+             
+        switch(opt) {
+            
+            case 1:
+                switch(option){
+                        case 1:
+                            personService.updatePeople();
+                            break;
+                        case 2:
+                            personService.deletePeople();     
+                            break;
+                        case 3:
+                            personService.searchPeople();
+                            break;
+                        case 4:
+                            shiftService.updateShift();
+                            break;
+                        case 5:
+                            shiftService.deleteShift();
+                            break;
+                        case 6:
+                            shiftService.searchShifts();
+                            break;
+                        default:
+                            break;
+                    }
+                break;
+            case 2:
+                menu();
+            default:
+                break;
+        }
         
         
+                
     }
 
     public  void clear() {
