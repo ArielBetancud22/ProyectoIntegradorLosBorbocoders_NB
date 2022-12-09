@@ -135,7 +135,9 @@ public class ShiftService {
             } else if (shiftList.size() - 1 == i) {
 
                 System.out.println("the shift hasn't been founded!");
+                
                 frontService.submenu2();
+                
                 int option = Integer.parseInt(sc.nextLine());
 
                 switch (option) {
@@ -156,25 +158,14 @@ public class ShiftService {
         }
 
         if (shiftFounded != null) {
-
-//            System.out.print("Please enter the year: ");
-//            int year = sc.nextInt();
-//            System.out.print("Please enter the Month: ");
-//            int month = sc.nextInt();
-//            System.out.print("Please enter the day: ");
-//            int day = sc.nextInt();
-//            System.out.print("Please enter the hour: ");
-//            int hour = sc.nextInt();
-//            System.out.print("Please enter the minutes: ");
-//            int minutes = sc.nextInt();
-//            
+            
             LocalDateTime dateTime = inputDate();
 
-            //dateTime = LocalDateTime.of(year, month, day, hour, minutes);
             LocalDateTime dateTimePlus = dateTime.plusHours(5);
+            
+            
 
             if (dateTime.getYear() >= dateTimePlus.getYear() && dateTime.getMonthValue() >= dateTimePlus.getMonthValue() && dateTime.getDayOfMonth() >= dateTimePlus.getDayOfMonth()) {
-// && dateTime.getHour() >= dateTimePlus.getHour() 
                 shiftFounded.setDate(dateTime);
                 System.out.println("The shift has been changed!");
                 System.out.println("Press 1 to return to the principal menu.");
