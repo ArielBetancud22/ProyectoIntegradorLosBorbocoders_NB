@@ -16,13 +16,16 @@ public class ShiftService {
         
         return shiftList;
     }
-
+    
+    // Esta función se encarga de desplegar los turnos de la base de datos.
     public void displayShifts() {
 
         if (shiftList.isEmpty()) {
 
-            System.out.println("The database is empty.");
-
+            frontService.clear();
+            
+            System.out.println("The database is empty.\n");
+            
             frontService.submenu();
 
         } else {
@@ -46,6 +49,7 @@ public class ShiftService {
 
     }
 
+    // Esta función se encarga de agregar turnos a la base de datos.
     public void addShift() {
 
        
@@ -90,22 +94,7 @@ public class ShiftService {
         
     }
     
-    private LocalDateTime inputDate(){ // Esta función se encarga de solicitar la fecha y hora del turno.
-        
-            System.out.print("Please enter the year: ");
-            int year = sc.nextInt();
-            System.out.print("Please enter the Month: ");
-            int month = sc.nextInt();
-            System.out.print("Please enter the day: ");
-            int day = sc.nextInt();
-            System.out.print("Please enter the hour: ");
-            int hour = sc.nextInt();
-            System.out.print("Please enter the minutes: ");
-            int minutes = sc.nextInt();
-
-        return LocalDateTime.of(year, month, day, hour, minutes);
-    }
-
+    // Esta función se encarga de reprogramar un turno
     public void updateShift() { // Esta función se encarga de reprogramar un turno.
 
         System.out.print("Enter the identification number: ");
@@ -146,12 +135,12 @@ public class ShiftService {
 
         } else {
 
-            System.out.println("Shift doesn't exist!");
             frontService.submenu2(4);
         }
 
     }
 
+    // Esta función se encarga de eliminar un turno de la base de datos.
     public void deleteShift() {
 
         System.out.print("Enter the identification number: ");
@@ -161,16 +150,19 @@ public class ShiftService {
         if (getShift(id) != null) {
             
             Shift shiftFounded = getShift(id);
+            frontService.clear();
             System.out.println("The shift has been deleted!");
             shiftList.remove(shiftFounded);
             frontService.submenu();
-        } else {
             
+        } else {
+    
             frontService.submenu2(5);
         }
        
     }
-
+    
+    // Esta función se encarga de mostrar los turnos en una tabla de la base de datos.
     public void searchShifts() {
 
         System.out.print("Enter the identification number: ");
@@ -199,7 +191,25 @@ public class ShiftService {
         }
 
     }
+    
+    // Esta función se encarga de solicitar los datos del turno.
+    private LocalDateTime inputDate(){ // Esta función se encarga de solicitar la fecha y hora del turno.
+        
+            System.out.print("Please enter the year: ");
+            int year = sc.nextInt();
+            System.out.print("Please enter the Month: ");
+            int month = sc.nextInt();
+            System.out.print("Please enter the day: ");
+            int day = sc.nextInt();
+            System.out.print("Please enter the hour: ");
+            int hour = sc.nextInt();
+            System.out.print("Please enter the minutes: ");
+            int minutes = sc.nextInt();
 
+        return LocalDateTime.of(year, month, day, hour, minutes);
+    }
+
+    // Esta función se encarga de verificar los datos del turno antes de confirmarlo.
     private void confirmShift(Shift shift, LocalDateTime dateTime) {
 
         if (validateDate(dateTime, shiftList)) {
@@ -229,7 +239,8 @@ public class ShiftService {
 
 
     }
-
+    
+    // Esta función se encarga de validar la disponibilidad del turno.
     private boolean validateDate(LocalDateTime dateTime, List<Shift> shifts) {
 
         LocalDateTime datePlus = LocalDateTime.now().plusHours(5);
@@ -251,6 +262,7 @@ public class ShiftService {
 
     }
         
+    // Esta función se encarga de obtener un turno específico.
     private Shift getShift(int id) {
 
         Person personShift = new Person();
@@ -277,8 +289,9 @@ public class ShiftService {
                 break;
                 
             } else if (shiftList.size() - 1 == i) { // Aqui nos aseguramos de recorrer toda la base de datos hasta que el indice sea igual a su tamaño.
-
-                System.out.println("the shift hasn't been founded!");
+                
+                frontService.clear();
+                System.out.println("the shift hasn't been founded!\n");
 
             }
             
@@ -287,6 +300,7 @@ public class ShiftService {
         return shiftFounded;
     }
 
+    // Esta función se encarga de cargar la información en la base de datos.
     public void loadList() {
 
         shiftList.add(new Shift(LocalDateTime.of(2022, 12,10, 10, 00 ), personService.getPersons().get(1)));
@@ -298,9 +312,10 @@ public class ShiftService {
         shiftList.add(new Shift(LocalDateTime.of(2023, 1, 10, 10, 15), personService.getPersons().get(7)));
 
     }
-
+    
+    // Esta función se encarga de ordenar los turnos según dia, mes, año, hora  y minuto.
     private void sortShifts() {
-
+        // Por cada turno que se itera se compara con el siguiente y se va ordenando.
         shiftList.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
     }
 

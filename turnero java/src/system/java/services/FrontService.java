@@ -3,7 +3,8 @@ package system.java.services;
 import java.util.Scanner;
 
 public class FrontService {
-
+    
+    // Este es el cartel de bienvenida
     public  void welcome() {
 
         // FRONT //
@@ -32,11 +33,12 @@ public class FrontService {
 
             e.printStackTrace();
         }
-        welcomeFlag = false;
+        welcomeFlag = false; // Esta bandera se utiliza para que el cartel solo sea mostrado 1 vez al inicio.
         clear();
 
     }
-
+    
+    // Esta función se encarga de desplegar el menú principal.
     public  void menu(){
 
         if (welcomeFlag) {
@@ -46,7 +48,7 @@ public class FrontService {
         do {
 
             System.out.println("****************************************************************************************************");
-            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\tMenu");
+            System.out.println("\t\t\t\t\t\tMenu");
             System.out.println("****************************************************************************************************");
             System.out.println();
             System.out.println("1. Display shifts.\t\t2. Display people. \t\t3. Add shifts. \t\t4. Add people.");
@@ -97,6 +99,7 @@ public class FrontService {
         }
     }
 
+    // Esta función se encarga de desplegar un submenú.
     public  void submenu() {
         sc.nextLine();
         //clear();
@@ -119,6 +122,7 @@ public class FrontService {
         }
     }
     
+    // Esta función se encarga de desplegar un submenú.
     public void submenu2(int option) {
         
         System.out.println("Press 1 to try again.");
@@ -162,6 +166,7 @@ public class FrontService {
                 
     }
 
+    // Esta función se encarga de limpiar la panntalla.
     public  void clear() {
 
         for (int i = 0; i < 25; i++) {

@@ -13,6 +13,34 @@ public class PersonService {
 
         return peopleList;
     }
+    
+    // Esta función se encarga de mostrar una tabla con la base de datos de las personas registradas.
+    public  void displayPeople(){
+
+        if ( peopleList.isEmpty() ) {
+
+            System.out.println("The database is empty.");
+
+        }
+        else {
+
+            System.out.println("****************************************************************************************************");
+            System.out.printf("%7s %15s %20s %20s %25s", "ID", "NAME", "LASTNAME", "PHONE", "EMAIL");
+            System.out.println();
+            System.out.println("****************************************************************************************************");
+            for (Person p : peopleList) {
+                System.out.format("%10s %15s %20s %20s %25s",
+                        p.getId(), p.getName(), p.getLastname(), p.getPhone(), p.getEmail());
+                System.out.println();
+                System.out.println("****************************************************************************************************");
+            }
+
+
+        }
+        frontService.submenu();
+    }
+    
+    // Esta función se encarga de agregar personas a la base de datos.
     public  void addPeople(boolean flag) {
 
         Person person = new Person();
@@ -46,6 +74,8 @@ public class PersonService {
             shiftService.addShift();
         }
     }
+    
+    // Esta función se encarga de actualizar los datos de una persona.
     public  void updatePeople(){
 
         Person personToUpdate;
@@ -55,7 +85,7 @@ public class PersonService {
 
         List <Person> listForUpdates;
 
-
+        // Se genera una lista con las personas coincidentes.
         listForUpdates = peopleList.stream()
                 .filter(person -> person.getId() == id)
                 .collect(Collectors.toList());
@@ -73,7 +103,7 @@ public class PersonService {
                 System.out.println("Lastname: " + p.getLastname());
                 System.out.println("**************************************************");
             });
-
+            
             System.out.println("Enter the actual name: ");
             String name = sc.nextLine();
             System.out.println("Enter the actual name: ");
@@ -82,15 +112,15 @@ public class PersonService {
             personToUpdate = new Person(name, lastname, id);
 
 
-
-
-        } else if(listForUpdates.isEmpty()) {
             
-            System.out.println("there is no person with that id");
+        // Si la lista esta vacia no hay coincidencias
+        } else if(listForUpdates.isEmpty()) {
+            frontService.clear();
+            System.out.println("there is no person with that id\n");
             frontService.submenu2(1);
 
         }
-        else{
+        else{ // Si hay coincidencias se actualizan los datos.
         
             personToUpdate = listForUpdates.get(0);
             
@@ -116,6 +146,8 @@ public class PersonService {
         }
 
     }
+    
+    // Esta función se encarga de eliminar una persona de la base de datos.
     public  void deletePeople() {
 
         Person personToRemove = new Person();
@@ -128,13 +160,14 @@ public class PersonService {
 
         System.out.print("Enter the identification number: ");
         personToRemove.setId(Integer.parseInt(sc.nextLine()));
-
+        
+        // Se busca el indice de la persona a eliminar.
         for (int i = 0; i < peopleList.size(); i++) {
 
             if (personToRemove.getName().equalsIgnoreCase(peopleList.get(i).getName()) && personToRemove.getLastname().equalsIgnoreCase(peopleList.get(i).getLastname()) && personToRemove.getId() == (peopleList.get(i).getId())) {
                 
                 int index = 1;
-                
+                // Se busca si la persona tiene turno para eliminarlo también.
                 for(int j=0; j< shiftService.getShifts().size();j++){
                     
                    if( personToRemove.getId() == shiftService.getShifts().get(j).getPerson().getId() ) {
@@ -145,15 +178,19 @@ public class PersonService {
                 
                 shiftService.shiftList.remove(index);
                 
+                // Se elimina a la persona
                 peopleList.remove(i);
                 System.out.println();
                 System.out.println("The person has been deleted!");
                 break;
 
-
+            // Si no se encuentra se despliega el submenu.
             } else if (i == peopleList.size()-1) {
+                
                 frontService.clear();
+                
                 System.out.println("The person couldn't be found.\n");
+                
                 frontService.submenu2(2);
                 
 
@@ -161,65 +198,20 @@ public class PersonService {
         }
         frontService.submenu();
     }
-    public  void confirmPeople(Person person) {
-
-
-
-        if(peopleList
-                .stream()
-                .anyMatch(
-                             p->p.getId() == person.getId() &&
-                                p.getName().equalsIgnoreCase(person.getName()) &&
-                                p.getLastname().equalsIgnoreCase(person.getLastname()) &&
-                                p.getEmail().equalsIgnoreCase(person.getEmail()) &&
-                                p.getPhone() == person.getPhone())){
-
-            System.out.println("The user already exists! \nTry again...");
-            addPeople(false);
-        }
-        else {
-
-            peopleList.add(person);
-            System.out.println();
-            System.out.println("The user has been added successfully!");
-            System.out.println();
-        }
-
-    }
-    public  void displayPeople(){
-
-        if ( peopleList.isEmpty() ) {
-
-            System.out.println("The database is empty.");
-
-        }
-        else {
-
-            System.out.println("****************************************************************************************************");
-            System.out.printf("%7s %15s %20s %20s %25s", "ID", "NAME", "LASTNAME", "PHONE", "EMAIL");
-            System.out.println();
-            System.out.println("****************************************************************************************************");
-            for (Person p : peopleList) {
-                System.out.format("%10s %15s %20s %20s %25s",
-                        p.getId(), p.getName(), p.getLastname(), p.getPhone(), p.getEmail());
-                System.out.println();
-                System.out.println("****************************************************************************************************");
-            }
-
-
-        }
-        frontService.submenu();
-    }
+    
+    // Esta función se encarga de encontrar una persona específica y mostrar sus datos.
     public  void searchPeople() {
 
         System.out.print("Enter the identification number: ");
         int id = Integer.parseInt(sc.nextLine());
-
+        
+        // Aqui se cargan las personas filtradas coincidentes en una lista.
         List<Person> foundedPeople = peopleList
                                     .stream()
                                     .filter(p -> p.getId() == id)
                                     .collect(Collectors.toList());
-
+        
+        // Aqui se muestra la tabla si la lista no esta vacia
         if (!foundedPeople.isEmpty()) {
 
             System.out.println("****************************************************************************************************");
@@ -247,6 +239,31 @@ public class PersonService {
         }
 
         frontService.submenu();
+
+    }
+    
+    // Esta función se encarga de verificar los datos de la persona para agregarla a la base de datos.
+    public  void confirmPeople(Person person) {
+        
+        // Aqui se comprueba que la persona no exista comparando sus atributos.
+        if(peopleList
+                .stream()
+                .anyMatch(p->p.getId() == person.getId() &&
+                            p.getName().equalsIgnoreCase(person.getName()) &&
+                            p.getLastname().equalsIgnoreCase(person.getLastname()) &&
+                            p.getEmail().equalsIgnoreCase(person.getEmail()) &&
+                            p.getPhone() == person.getPhone())){
+
+            System.out.println("The user already exists! \nTry again...");
+            addPeople(false);
+        }
+        else {
+
+            peopleList.add(person);
+            System.out.println();
+            System.out.println("The user has been added successfully!");
+            System.out.println();
+        }
 
     }
 

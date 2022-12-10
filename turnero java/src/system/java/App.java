@@ -6,7 +6,7 @@ public class App {
 
     public static void main(String[] args) {
         
-        dao.getData(); // Este objeto se encarga de cargar los arrays en la base de datos.
+        dao.getData(); // Este objeto se encarga de cargar los arrays de la base de datos.
 
         frontService.menu(); // Despliegue del menu.
 
